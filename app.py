@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from models import *
@@ -42,8 +42,11 @@ def read(id):
     
 @app.route("/posts/<int:id>/delete")
 def delete(id):
+    # DB에서 특정 게시글 가져오기
     post = Post.query.get(id)
+    # post 오브젝트 삭제하기
     db.session.delete(post)
     db.session.commit()
-    return render_template("delete.html")
+    return redirect('/') #render_template("index.html")은 화면만 보여주고 url은 그대로이지만 redirect는 요청을 다시 보내서 url자체가 바뀐다
+
     
