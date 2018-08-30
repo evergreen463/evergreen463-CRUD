@@ -47,6 +47,22 @@ def delete(id):
     # post 오브젝트 삭제하기
     db.session.delete(post)
     db.session.commit()
+    # DELETE FROM posts WHERE id=2;
     return redirect('/') #render_template("index.html")은 화면만 보여주고 url은 그대로이지만 redirect는 요청을 다시 보내서 url자체가 바뀐다
 
-    
+@app.route("/posts/<int:id>/edit")
+def edit(id):
+    post = Post.query.get(id)
+    return render_template("edit.html", post=post)
+   
+
+
+@app.route("/posts/<int:id>/update", methods=["POST"]) 
+def update(id):
+    post = Post.query.get(id)
+    post.title = request.form.get('title')
+    post.content = request.form.get('content') 
+    db.session.commit()
+    # UPDATE posts SET title = "hihi"
+    # WHERE id =2;
+    return redirect("/posts/{}".format(post.id))
