@@ -28,7 +28,7 @@ class Post:
         return '''
         제목 : {}
         내용 : {}
-        '''.format(self.title, self.content)
+        '''.format(self.title, self.content) # str은 사용자만 repr은 개발자라고 생각하면 된다 str은 str만 repr은 str과 repr둘다 한다
 
 def main():
     p1 = Post("1번글", "1번제목")
