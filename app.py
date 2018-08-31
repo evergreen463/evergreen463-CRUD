@@ -92,3 +92,18 @@ def update(id):
 # Post.query.filter(and_(Post.title == "1", Post.content == "1")
 # SELECT * FROM posts
 # WHERE title = "1" AND content="1"
+
+@app.route("/posts/<int:post_id>/comment", methods=["POST"])
+def comment(post_id):
+    # 1. 사용자가 보낸 댓글 내용 가져오기
+    content = request.form.get('content')
+    comment = Comment(content=content)
+    # 2. 해당하는 댓글이 어디 게시물이랑 관계가 있는지!!
+    # 2-1. 해당 게시물 가져오기
+    post = Post.query.get(post_id)
+    # 2-2. 해당 게시물에 댓글 오브젝트 넣기
+    post.comments.append(comment)
+    # 3. 댓글 저장하기
+    db.session.add(comment)
+    db.session.commit()
+    return redirect('/posts/{}'.format(post_id))

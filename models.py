@@ -9,6 +9,8 @@ class Post(db.Model):
     title = db.Column(db.String)
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+    updated_at = db.Column(db.DateTime)
+    comments = db.relationship("Comment", backref='post')
     
     def __init__(self, title, content):
         self.title = title
@@ -21,3 +23,14 @@ class Post(db.Model):
 #     content TEXT,
 #     created_at DATETIME
 # )
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
+    # FK
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    
+    def __init__(self, content):
+        self.content = content
+        self.created_at = datetime.datetime.now()
